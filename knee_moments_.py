@@ -7,6 +7,7 @@ from collections import deque
 from .const import WAIT_PREDICTION, IMU_LIST, IMU_FIELDS, PREDICTION_DONE, MAX_BUFFER_LEN,\
     R_FOOT, WEIGHT_LOC, HEIGHT_LOC, ACC_ALL, GYR_ALL, GRAVITY
 import os
+import pickle
 
 LSTM_UNITS, FCNN_UNITS = 40, 40
 device = 'cpu'
@@ -248,11 +249,13 @@ class MomentPrediction:
         self.data_array_fields = [axis + '_' + sensor for sensor in IMU_LIST for axis in IMU_FIELDS]
 
         base_path = os.path.abspath(os.path.dirname(__file__))
-        model_path = base_path + '/models/8IMU_LSTM40_FCNN40_4OUT.pth'
-        self.model = torch.load(model_path)
-        # self.model = LmfImuOnlyNet(24, 24) # 3*8
-        # self.model.eval()
-        # self.model.load_state_dict(torch.load(model_state_path))
+        model_state_path = base_path + '/models/model_state.pth'
+        # self.model = torch.load(model_path)
+        self.model = LmfImuOnlyNet(acc_dim=24, gyr_dim=24, output_dim=4) # 3*8
+        self.model.eval()
+        self.model.load_state_dict(torch.load(model_state_path))
+        scaler_path = base_path + '/models/model_scalers.pkl'
+        self.model.set_scalers(pickle.load(open(scaler_path, 'rb')))
         
         self.model.acc_col_loc = [self.data_array_fields.index(field) for field in ACC_ALL]
         self.model.gyr_col_loc = [self.data_array_fields.index(field) for field in GYR_ALL]
