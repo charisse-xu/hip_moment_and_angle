@@ -1,0 +1,26 @@
+{ 
+  "user_guide_file": "KAM App Guide.pdf",
+  "app_name": "HFM HAM HFA HAA",
+  "app_version" : "0_0",
+  "app_id": "074" ,
+  "version_id": "07400",
+  "app_description": "Estimation of knee flexion moment (KFM) & knee adduction moment (KAM) from wearable IMUs during walking.",
+  "parameters_setting": [
+    ["Save Options",
+      {"source": "save_mode", "title": "Save Mode", "type": "combo", "validation": ["csv", "xlsx"], "description": "Save file in specified format"}],
+    ["User Info",
+      {"source": "weight", "title": "Subject Weight (Kg)", "type": "float", "validation": [0, 200], "description": "Subject Weight (Kg)"},
+      {"source": "height", "title": "Subject Height (m)", "type": "float", "validation": [0, 2.5], "description": "Subject Height (m)"}]
+  ],
+
+  "user_fields": [
+  {"name": "time", "data_type": "float", "size":1}, 
+  {"name": "HFM", "data_type": "float", "size":1}, 
+  {"name": "HAM", "data_type": "float", "size":1}, 
+  {"name": "HFA", "data_type": "float", "size":1}, 
+  {"name": "HAA", "data_type": "float", "size":1}, 
+  {"name": "Stance_Flag", "data_type": "int", "size":1}],
+
+  "sensors": ["L_FOOT", "R_FOOT", "L_SHANK", "R_SHANK", "L_THIGH", "R_THIGH", "WAIST", "CHEST"],
+  "feedback": []
+}
